@@ -3,13 +3,27 @@ import os
 from dotenv import load_dotenv
 from groq import Groq
 
+try:
+    import streamlit as st
+    HAS_STREAMLIT = True
+except ImportError:
+    HAS_STREAMLIT = False
+
 
 class AIInsightsGenerator:
     """Generate business insights using Groq API"""
     
     def __init__(self):
-        load_dotenv()
-        api_key = os.getenv('api_key')
+        # Try Streamlit secrets first (for deployment), then fall back to .env (for local)
+        if HAS_STREAMLIT:
+            try:
+                api_key = st.secrets.get("api_key")
+            except:
+                load_dotenv()
+                api_key = os.getenv('api_key')
+        else:
+            load_dotenv()
+            api_key = os.getenv('api_key')
         
         if not api_key or api_key == 'your_groq_api_key_here':
             raise ValueError(
