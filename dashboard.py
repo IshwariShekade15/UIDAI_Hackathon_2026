@@ -383,9 +383,36 @@ elif page == "AI Interpretation":
     
     st.divider()
     
-    # Check if API key is configured
-    if not os.path.exists(".env"):
+    # Check if API key is configured (support both local .env and Streamlit secrets)
+    api_key_configured = False
+    try:
+        # Try Streamlit secrets first (for deployment)
+        if hasattr(st, 'secrets') and 'api_key' in st.secrets:
+            api_key_configured = True
+    except:
+        pass
+    
+    # Fall back to .env file (for local development)
+    if not api_key_configured and os.path.exists(".env"):
+        from dotenv import load_dotenv
+        load_dotenv()
+        if os.getenv('api_key'):
+            api_key_configured = True
+    
+    if not api_key_configured:
         st.error(" **Configuration Required**")
+        st.markdown("""
+        **For Streamlit Cloud deployment:**
+        1. Go to your app settings
+        2. Click on 'Secrets' in the left menu
+        3. Add: `api_key = "your_groq_api_key_here"`
+        
+        **For local development:**
+        1. Create a `.env` file in the project root
+        2. Add: `api_key=your_groq_api_key_here`
+        
+        Get your API key from [Groq Console](https://console.groq.com/keys)
+        """)
         st.stop()
     
     # Generate insights button
