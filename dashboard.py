@@ -132,9 +132,9 @@ if page == "Executive Summary":
         ⚪ Grey — No recorded Aadhaar activity or insufficient data during the analysis period.
 
         **What is the Health Index?**  
-        The **Health Index (0–100)** is a composite score that measures how well a district’s Aadhaar ecosystem is functioning.
+        The **Health Index** is a composite score that measures how well a district’s Aadhaar ecosystem is functioning.
 
-        It combines:
+        **It combines:**  
         • **Enrolment performance** — how much Aadhaar activity the district handles  
         • **Operational stability** — consistency of activity over time  
         • **Biometric compliance** — especially child biometric updates  
